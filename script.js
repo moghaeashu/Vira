@@ -124,6 +124,6 @@ function takeCommand(message) {
         let date = new Date().toLocaleString(undefined, { day: "numeric", month: "short" });
         speak(`Today's date is ${date}`);
     } else if (message.includes("get shocked")) {
-        playAudio('AI Intelligence/audios/shock.mp3');
+        playAudio('/audios/shock.mp3');
     }
 }
