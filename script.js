@@ -8,37 +8,8 @@ function speak(text) {
     text_speak.rate = 1;
     text_speak.pitch = 1;
     text_speak.volume = 1;
-    text_speak.lang = "en-GB";
+    text_speak.lang = "hi";
     
-    // Find the desired voice
-    let voices = window.speechSynthesis.getVoices();
-    let selectedVoice = voices.find(voice => voice.name.includes("Google") && voice.name.includes("Gemini Nova"));
-    
-    // If the desired voice is found, use it
-    if (selectedVoice) {
-        text_speak.voice = selectedVoice;
-    } else {
-        console.log("Google Gemini Nova voice not found. Using default voice.");
-    }
-    
-    window.speechSynthesis.speak(text_speak);
-}
-
-// Load the voices asynchronously
-function loadVoices() {
-    return new Promise((resolve) => {
-        let synth = window.speechSynthesis;
-        let id;
-        
-        id = setInterval(() => {
-            if (synth.getVoices().length !== 0) {
-                clearInterval(id);
-                resolve(synth.getVoices());
-            }
-        }, 10);
-    });
-}
-
 // Call wishMe when the page loads
 window.addEventListener('load', async () => {
     await loadVoices();  // Load voices before greeting
