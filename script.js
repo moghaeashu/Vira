@@ -98,7 +98,7 @@ function takeCommand(message) {
         speak("I am opening WhatsApp...");
         window.open("https://web.whatsapp.com/", "_blank");
     } else if (message.includes("can i abuse you")) {
-        speak(" i dont like abuse so shut the fucking your mouth.");
+        speak(" i dont like abuse so shut the fuck up");
     } else if (message.includes("vira what is html")) {
         speak("This is what I found on the internet regarding HTML.");
         window.open("https://www.google.com/search?q=what+is+html", "_blank");
@@ -114,7 +114,9 @@ function takeCommand(message) {
     } else if (message.includes("date")) {
         let date = new Date().toLocaleString(undefined, { day: "numeric", month: "short" });
         speak(`Today's date is ${date}`);
-    }  
+    }  if (message.includes("how are you")) {
+        speak("i am fine very well sir");
+    }
 }
 
 
