@@ -2,53 +2,26 @@ let btn = document.querySelector("#btn");
 let content = document.querySelector("#content");
 let voice = document.querySelector("#voice");
 
-// Function to play custom audio
-function playCustomAudio() {
-    let audio = new Audio('path/to/your/custom-audio.mp3');  // Update with the correct path to your audio file
-    audio.play();
-}
-
 // Function to speak with a specific voice
 function speak(text) {
     let text_speak = new SpeechSynthesisUtterance(text);
     text_speak.rate = 1;
     text_speak.pitch = 1;
     text_speak.volume = 1;
-    text_speak.lang = "en-US";
-
-    // Load available voices
-    let voices = window.speechSynthesis.getVoices();
-    let selectedVoice = voices.find(voice => voice.name.includes("Google") && voice.name.includes("Gemini Nova"));
-
-    if (selectedVoice) {
-        text_speak.voice = selectedVoice;
-    } else {
-        console.log("Google Gemini Nova voice not found. Using default voice.");
-    }
-
+    text_speak.lang = "en";
     window.speechSynthesis.speak(text_speak);
 }
 
-// Load the voices asynchronously
-function loadVoices() {
-    return new Promise((resolve) => {
-        let synth = window.speechSynthesis;
-        let id;
+// Call wishMe when the page loads
+window.addEventListener('load', async () => {
+    await loadVoices();  // Load voices before greeting
+    wishMe();
+});
 
-        id = setInterval(() => {
-            if (synth.getVoices().length !== 0) {
-                clearInterval(id);
-                resolve(synth.getVoices());
-            }
-        }, 10);
-    });
-}
-
-// Greet the user based on time
+// Function to greet the user based on the time of day
 function wishMe() {
     let day = new Date();
     let hours = day.getHours();
-
     if (hours >= 0 && hours < 12) {
         speak("Good Morning Sir");
     } else if (hours >= 12 && hours < 16) {
@@ -60,42 +33,28 @@ function wishMe() {
 
 // Speech recognition setup
 let speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition;
+let recognition = new speechRecognition();
 
-if (speechRecognition) {
-    recognition = new speechRecognition();
-} else {
-    console.error("Speech Recognition is not supported in this browser.");
-    alert("Sorry, your browser does not support the Speech Recognition API.");
-}
+recognition.onresult = (event) => {
+    let currentIndex = event.resultIndex;
+    let transcript = event.results[currentIndex][0].transcript;
+    content.innerText = transcript;
+    takeCommand(transcript.toLowerCase());
+};
 
-if (recognition) {
-    recognition.onresult = (event) => {
-        let currentIndex = event.resultIndex;
-        let transcript = event.results[currentIndex][0].transcript;
-        content.innerText = transcript;
-        takeCommand(transcript.toLowerCase());
-    };
-
-    // Start recognition on button click
-    btn.addEventListener("click", () => {
-        recognition.start();
-        btn.style.display = "none";
-        voice.style.display = "block";
-    });
-}
+// Start recognition on button click
+btn.addEventListener("click", () => {
+    recognition.start();
+    btn.style.display = "none";
+    voice.style.display = "block";
+});
 
 // Function to handle voice commands
 function takeCommand(message) {
-    // Show the button after command is taken
     btn.style.display = "flex";
     voice.style.display = "none";
 
-    // Check for specific commands
-    if (message.includes("shock")) {
-        playCustomAudio('audios/carryminati-asambhav-128-ytshorts.savetube.me.mp3'); // Play the custom audio when "get shocked" is spoken
-        speak("Here is your shock!");
-    } else if (message.includes("hello") || message.includes("hey")) {
+    if (message.includes("hello") || message.includes("hey")) {
         speak("Hello Sir, what can I help you with?");
     } else if (message.includes("who are you")) {
         speak("I am Vira, a virtual assistant created by Harshit Mogha Sir.");
@@ -112,7 +71,7 @@ function takeCommand(message) {
         speak("I am opening WhatsApp...");
         window.open("https://web.whatsapp.com/", "_blank");
     } else if (message.includes("can i abuse you")) {
-        speak("I don't like abuse, so please mind your language.");
+        speak(" i dont like abuse so shut the fucking your mouth.");
     } else if (message.includes("vira what is html")) {
         speak("This is what I found on the internet regarding HTML.");
         window.open("https://www.google.com/search?q=what+is+html", "_blank");
@@ -131,8 +90,3 @@ function takeCommand(message) {
     }
 }
 
-// Call wishMe when the page loads
-window.addEventListener('load', async () => {
-    await loadVoices();
-    wishMe();
-});
