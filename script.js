@@ -114,9 +114,7 @@ function takeCommand(message) {
     } else if (message.includes("date")) {
         let date = new Date().toLocaleString(undefined, { day: "numeric", month: "short" });
         speak(`Today's date is ${date}`);
-    }  if (message.includes("tatti")) {
-        speak("teri chucchi ka dana kala hai saale chutiya");
-    } 
+    }  
 }
 
 
