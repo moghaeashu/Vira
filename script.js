@@ -8,7 +8,7 @@ function speak(text) {
     text_speak.rate = 1;
     text_speak.pitch = 1;
     text_speak.volume = 1;
-    text_speak.lang = "hi";
+    text_speak.lang = "en";
     
     // Find the desired voice
     let voices = window.speechSynthesis.getVoices();
