@@ -1,10 +1,36 @@
 let btn = document.querySelector("#btn");
 let content = document.querySelector("#content");
 let voice = document.querySelector("#voice");
+let selectedVoice = null;
 
-// Function to speak with a specific voice
+// Load voices and select a male voice
+function loadVoices() {
+    return new Promise((resolve) => {
+        let voices = window.speechSynthesis.getVoices();
+
+        if (voices.length === 0) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                voices = window.speechSynthesis.getVoices();
+                selectedVoice = selectMaleVoice(voices);
+                resolve();
+            };
+        } else {
+            selectedVoice = selectMaleVoice(voices);
+            resolve();
+        }
+    });
+}
+
+// Function to select a male voice from the list of voices
+function selectMaleVoice(voices) {
+    // Try to find a realistic male voice, such as Google UK English Male
+    return voices.find(voice => voice.name.includes("Google UK English Male") || voice.name.includes("Male")) || voices[0];
+}
+
+// Function to speak with the selected voice
 function speak(text) {
     let text_speak = new SpeechSynthesisUtterance(text);
+    text_speak.voice = selectedVoice;  // Set the selected male voice
     text_speak.rate = 1;
     text_speak.pitch = 1;
     text_speak.volume = 1;
