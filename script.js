@@ -1,41 +1,42 @@
 let btn = document.querySelector("#btn");
 let content = document.querySelector("#content");
 let voice = document.querySelector("#voice");
-let selectedVoice = null;
 
-// Load voices and select a male voice
-function loadVoices() {
-    return new Promise((resolve) => {
-        let voices = window.speechSynthesis.getVoices();
-
-        if (voices.length === 0) {
-            window.speechSynthesis.onvoiceschanged = () => {
-                voices = window.speechSynthesis.getVoices();
-                selectedVoice = selectMaleVoice(voices);
-                resolve();
-            };
-        } else {
-            selectedVoice = selectMaleVoice(voices);
-            resolve();
-        }
-    });
-}
-
-// Function to select a male voice from the list of voices
-function selectMaleVoice(voices) {
-    // Try to find a realistic male voice, such as Google UK English Male
-    return voices.find(voice => voice.name.includes("Google UK English Male") || voice.name.includes("Male")) || voices[0];
-}
-
-// Function to speak with the selected voice
+// Function to speak with a specific voice
 function speak(text) {
     let text_speak = new SpeechSynthesisUtterance(text);
-    text_speak.voice = selectedVoice;  // Set the selected male voice
     text_speak.rate = 1;
     text_speak.pitch = 1;
     text_speak.volume = 1;
-    text_speak.lang = "en-GB";
+    text_speak.lang = "en";
+    
+    // Find the desired voice
+    let voices = window.speechSynthesis.getVoices();
+    let selectedVoice = voices.find(voice => voice.name.includes("Google") && voice.name.includes("Gemini Nova"));
+    
+    // If the desired voice is found, use it
+    if (selectedVoice) {
+        text_speak.voice = selectedVoice;
+    } else {
+        console.log("Google Gemini Nova voice not found. Using default voice.");
+    }
+    
     window.speechSynthesis.speak(text_speak);
+}
+
+// Load the voices asynchronously
+function loadVoices() {
+    return new Promise((resolve) => {
+        let synth = window.speechSynthesis;
+        let id;
+        
+        id = setInterval(() => {
+            if (synth.getVoices().length !== 0) {
+                clearInterval(id);
+                resolve(synth.getVoices());
+            }
+        }, 10);
+    });
 }
 
 // Call wishMe when the page loads
