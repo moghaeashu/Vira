@@ -86,5 +86,4 @@ function takeCommand(message) {
         let date = new Date().toLocaleString(undefined, { day: "numeric", month: "short" });
         speak(`Today's date is ${date}`);
     }
-}
 
