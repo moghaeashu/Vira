@@ -30,7 +30,7 @@ animate();
 const customAudioCommands = {
     'hello': 'path/to/hello.mp3',
     'good morning': 'path/to/good-morning.mp3',
-    'play song': 'songs/Desi-Hood-(Slowed-Reverb)---Krish-Rao-BARATO-NATION.mp3',
+    'play song': 'Desi-Hood-(Slowed-Reverb)---Krish-Rao-BARATO-NATION.mp3',
     // Add more commands and audio paths here
 };
 
