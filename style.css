@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#scene-container {
+    width: 100%;
+    height: 60vh;
+    position: relative;
+}
+
+#transcript {
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    min-height: 60px;
+    width: 80%;
+    max-width: 600px;
+}
+
+#mic-button {
+    padding: 20px 40px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+#mic-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.listening {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.hidden {
+    display: none;
+}
+
+#animation-container {
+    width: 100px;
+    height: 100px;
+    display: none;
+}
+
+.wave {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    animation: wave 1s infinite;
+}
+
+@keyframes wave {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(0.8); opacity: 0.5; }
+}
